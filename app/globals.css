@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Cool Romantic — midnight gelap + blush/lavender/gold.
+     `paper` = warna gelap (bg & teks di atas aksen), `ink` = warna terang. */
+  --paper: #0f0a1e;
+  --paper-2: #1c1530;
+  --ink: #faf7ff;
+  --accent: #ff8fb1;
+  --blush: #f7a8c4;
+  --butter: #f5d5a8;
+  --sky: #a78bfa;
+}
+
+@layer base {
+  html {
+    /* Lenis menggerakkan scroll; jangan pakai smooth bawaan CSS bersamaan. */
+    scroll-behavior: auto;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    /* Glow aurora lembut — vibe "malam berbintang + senja". */
+    background-image:
+      radial-gradient(
+        50rem 36rem at 12% -8%,
+        rgba(167, 139, 250, 0.16),
+        transparent 60%
+      ),
+      radial-gradient(
+        44rem 32rem at 92% 4%,
+        rgba(255, 143, 177, 0.14),
+        transparent 60%
+      ),
+      radial-gradient(
+        48rem 40rem at 50% 108%,
+        rgba(129, 140, 248, 0.12),
+        transparent 60%
+      );
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  /* Sembunyikan kursor asli hanya saat custom cursor aktif (pointer halus). */
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: none;
+  }
+
+  /* Fokus keyboard yang jelas (quality floor). */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--paper);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 9999px;
+    border: 2px solid var(--paper);
+  }
+}
+
+@layer components {
+  .container-max {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .section-pad {
+    @apply py-20 md:py-28;
+  }
+
+  /* Label uppercase ala "about" referensi */
+  .label {
+    @apply text-label font-semibold uppercase text-ink/55;
+  }
+
+  /* Tombol utama — isian cherry-rose, sudut ramah */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full
+      bg-accent px-7 py-3.5 text-base font-semibold text-paper
+      shadow-sticker transition-all duration-200
+      hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0;
+  }
+
+  /* Tombol garis — di atas paper */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full
+      border-2 border-ink/15 bg-transparent px-7 py-3.5 text-base
+      font-semibold text-ink transition-all duration-200
+      hover:-translate-y-0.5 hover:border-ink/40 active:translate-y-0;
+  }
+
+  /* Kartu di atas surface paper-2 */
+  .paper-card {
+    @apply rounded-2xl border border-ink/10 bg-paper-2 shadow-sticker;
+  }
+
+  .text-accent-c {
+    color: var(--accent);
+  }
+
+  /* Gradient andalan: blush → lavender → indigo (untuk brand & heading). */
+  .text-gradient {
+    background-image: linear-gradient(120deg, #ff8fb1 0%, #c4b5fd 45%, #818cf8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Marquee fallback (bila JS belum jalan) */
+@keyframes marquee-fallback {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hormati pengguna yang ingin gerak minimal. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
