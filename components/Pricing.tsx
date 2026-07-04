@@ -5,6 +5,7 @@ import { plans } from "@/lib/data";
 import { waLink } from "@/lib/whatsapp";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import TiltCard from "./TiltCard";
 
 export default function Pricing() {
   return (
@@ -21,11 +22,12 @@ export default function Pricing() {
             const popular = plan.popular;
             return (
               <Reveal key={plan.id} delay={(i % 4) * 0.07} className="h-full">
-                <div
-                  className={`relative flex h-full flex-col rounded-2xl p-6 transition-transform duration-200 ${
+                <TiltCard
+                  rotate={popular ? -1 : 0}
+                  className={`relative flex h-full flex-col rounded-2xl p-6 ${
                     popular
-                      ? "-rotate-1 bg-accent text-paper shadow-lift lg:scale-[1.04]"
-                      : "border border-ink/12 bg-paper-2 text-ink shadow-sticker hover:-translate-y-1"
+                      ? "bg-accent text-paper shadow-lift lg:scale-[1.04]"
+                      : "border border-ink/12 bg-paper-2 text-ink shadow-sticker"
                   }`}
                 >
                   {popular && (
@@ -80,7 +82,7 @@ export default function Pricing() {
                   >
                     {plan.cta.toLowerCase()}
                   </a>
-                </div>
+                </TiltCard>
               </Reveal>
             );
           })}

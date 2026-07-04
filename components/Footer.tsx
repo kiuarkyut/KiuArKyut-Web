@@ -1,5 +1,6 @@
 import { Heart, MessageCircle, Instagram } from "lucide-react";
 import { waLink, WHATSAPP_NUMBER, DEFAULT_WA_MESSAGE } from "@/lib/whatsapp";
+import { INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/socials";
 import Marquee from "./Marquee";
 
 const NAV_LINKS = [
@@ -71,15 +72,15 @@ export default function Footer() {
                 <MessageCircle className="h-4 w-4" />
                 {displayNumber}
               </a>
-              {/* Placeholder Instagram — ganti dengan akun aslimu. */}
               <a
-                href="https://instagram.com/"
+                href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cursor="intip dulu ♥"
                 className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/15 px-4 py-2 text-sm font-medium lowercase text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-c"
               >
                 <Instagram className="h-4 w-4" />
-                instagram
+                {INSTAGRAM_HANDLE}
               </a>
             </div>
           </div>

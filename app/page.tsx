@@ -9,6 +9,7 @@ import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import { waLink, DEFAULT_WA_MESSAGE } from "@/lib/whatsapp";
 
 export default function Home() {
@@ -34,6 +35,7 @@ export default function Home() {
         <CTASection />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </>
   );
 }

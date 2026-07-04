@@ -1,0 +1,61 @@
+name: Deploy to Vercel
+
+# Auto-deploy ke Vercel setiap kali ada commit/push dari VSCode (atau di mana pun).
+#   - push ke branch `main`  -> deploy PRODUCTION
+#   - pull request           -> deploy PREVIEW (link uji coba)
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Batalkan run lama jika ada push baru di ref yang sama (hemat kuota).
+concurrency:
+  group: vercel-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      # --- PREVIEW (pull request) ---------------------------------------------
+      - name: Pull Vercel env (preview)
+        if: github.event_name == 'pull_request'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build (preview)
+        if: github.event_name == 'pull_request'
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy preview
+        if: github.event_name == 'pull_request'
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+      # --- PRODUCTION (push ke main) ------------------------------------------
+      - name: Pull Vercel env (production)
+        if: github.event_name == 'push'
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build (production)
+        if: github.event_name == 'push'
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy production
+        if: github.event_name == 'push'
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

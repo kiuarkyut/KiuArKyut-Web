@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Instagram, Menu, X } from "lucide-react";
 import { waLink, DEFAULT_WA_MESSAGE } from "@/lib/whatsapp";
+import { INSTAGRAM_URL } from "@/lib/socials";
+import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
   { label: "beranda", href: "#beranda" },
@@ -64,6 +66,7 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2 pr-1">
+          <ThemeToggle />
           <a
             href={waLink(DEFAULT_WA_MESSAGE)}
             target="_blank"
@@ -108,6 +111,16 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="mt-1 flex items-center gap-2 rounded-2xl px-4 py-3 text-lg font-semibold lowercase text-ink/80 transition-colors hover:bg-paper-2 hover:text-ink"
+            >
+              <Instagram className="h-5 w-5" />
+              instagram
+            </a>
             <a
               href={waLink(DEFAULT_WA_MESSAGE)}
               target="_blank"

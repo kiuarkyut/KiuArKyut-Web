@@ -21,7 +21,7 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.1}>
               <figure
-                className={`flex h-full flex-col rounded-2xl border border-ink/12 bg-paper-2 p-6 shadow-sticker ${
+                className={`flex h-full flex-col rounded-2xl border border-ink/12 bg-paper-2 p-6 shadow-sticker transition-all duration-300 hover:-translate-y-1.5 hover:rotate-0 hover:shadow-sticker-lg ${
                   i % 2 === 0 ? "sm:-rotate-1" : "sm:rotate-1"
                 }`}
               >

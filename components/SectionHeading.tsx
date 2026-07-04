@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import TitleReveal from "./TitleReveal";
 
 type SectionHeadingProps = {
   eyebrow: string;
@@ -22,7 +23,7 @@ export default function SectionHeading({
     >
       <p className="font-hand text-2xl text-accent-c">{eyebrow}</p>
       <h2 className="mt-1 font-display text-h2 font-extrabold lowercase text-ink">
-        {title}
+        <TitleReveal text={title} />
       </h2>
       {subtitle && (
         <p className="mt-4 text-lg leading-relaxed text-ink/65">{subtitle}</p>

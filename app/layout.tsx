@@ -60,10 +60,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBF1EC",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0F0A1E" },
+    { media: "(prefers-color-scheme: light)", color: "#FDF3ED" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
+
+// Set tema SEBELUM paint pertama agar tidak flash warna yang salah.
+// Prioritas: pilihan tersimpan → preferensi sistem → dark (tema khas brand).
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("kiuarkyut-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="dark"}})();`;
 
 export default function RootLayout({
   children,
@@ -73,8 +80,12 @@ export default function RootLayout({
   return (
     <html
       lang="id"
+      suppressHydrationWarning
       className={`${bricolage.variable} ${hanken.variable} ${caveat.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
         <Providers>{children}</Providers>
       </body>

@@ -10,19 +10,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // "Cool Romantic" palette — midnight gelap + blush/lavender/gold.
-        // Catatan: `paper` & `ink` adalah PASANGAN KONTRAS. Di tema gelap,
-        // `paper` = warna gelap (background & teks-di-atas-aksen), `ink` = warna
-        // terang (teks utama di atas background gelap).
+        // "Cool Romantic" palette — nilai warna hidup di app/globals.css sebagai
+        // CSS variable triplet "R G B" per tema (data-theme="dark" | "light").
+        // Catatan: `paper` & `ink` adalah PASANGAN KONTRAS. `paper` = warna
+        // background & teks-di-atas-aksen, `ink` = warna teks utama.
         paper: {
-          DEFAULT: "#0F0A1E", // background — midnight gelap
-          2: "#1C1530", // surface terangkat / kartu (sedikit lebih terang)
+          DEFAULT: "rgb(var(--paper) / <alpha-value>)",
+          2: "rgb(var(--paper-2) / <alpha-value>)",
         },
-        ink: "#FAF7FF", // teks utama — putih kehangatan
-        accent: "#FF8FB1", // blush/rose — aksen utama
-        blush: "#F7A8C4", // rose lembut / stiker
-        butter: "#F5D5A8", // soft gold / peach
-        sky: "#A78BFA", // lavender (variasi stiker)
+        ink: "rgb(var(--ink) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
+        blush: "rgb(var(--blush) / <alpha-value>)",
+        butter: "rgb(var(--butter) / <alpha-value>)",
+        sky: "rgb(var(--sky) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],

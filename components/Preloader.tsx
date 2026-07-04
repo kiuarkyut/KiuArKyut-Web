@@ -5,11 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
+// Warna dibaca dari token tema agar kontras di dark MAUPUN light mode.
 const DROPS = [
-  { left: "18%", color: "#FF8FB1", delay: 0 }, // blush
-  { left: "38%", color: "#F5D5A8", delay: 0.08 }, // gold
-  { left: "58%", color: "#A78BFA", delay: 0.16 }, // lavender
-  { left: "78%", color: "#F7A8C4", delay: 0.24 }, // rose
+  { left: "18%", token: "--accent", delay: 0 }, // blush/rose
+  { left: "38%", token: "--butter", delay: 0.08 }, // gold
+  { left: "58%", token: "--sky", delay: 0.16 }, // lavender
+  { left: "78%", token: "--blush", delay: 0.24 }, // rose lembut
 ];
 
 /**
@@ -54,7 +55,7 @@ export default function Preloader() {
               <motion.span
                 key={i}
                 className="absolute top-0"
-                style={{ left: d.left, color: d.color }}
+                style={{ left: d.left, color: `rgb(var(${d.token}))` }}
                 initial={{ y: -80, opacity: 0, rotate: -20 }}
                 animate={{ y: "46vh", opacity: 1, rotate: 12 }}
                 transition={{

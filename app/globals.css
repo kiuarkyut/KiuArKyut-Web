@@ -2,16 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Cool Romantic — midnight gelap + blush/lavender/gold.
-     `paper` = warna gelap (bg & teks di atas aksen), `ink` = warna terang. */
-  --paper: #0f0a1e;
-  --paper-2: #1c1530;
-  --ink: #faf7ff;
-  --accent: #ff8fb1;
-  --blush: #f7a8c4;
-  --butter: #f5d5a8;
-  --sky: #a78bfa;
+/* =============================================================================
+   TOKEN WARNA — triplet "R G B" agar Tailwind bisa memberi alpha (mis. ink/70).
+   Tema diatur lewat atribut data-theme di <html> (script anti-flash di layout).
+   ========================================================================== */
+
+:root,
+:root[data-theme="dark"] {
+  /* Cool Romantic — midnight gelap + blush/lavender/gold. */
+  --paper: 15 10 30; /* #0F0A1E */
+  --paper-2: 28 21 48; /* #1C1530 */
+  --ink: 250 247 255; /* #FAF7FF */
+  --accent: 255 143 177; /* #FF8FB1 */
+  --blush: 247 168 196; /* #F7A8C4 */
+  --butter: 245 213 168; /* #F5D5A8 */
+  --sky: 167 139 250; /* #A78BFA */
+
+  /* Aurora glow di belakang konten. */
+  --aurora-1: rgba(167, 139, 250, 0.16);
+  --aurora-2: rgba(255, 143, 177, 0.14);
+  --aurora-3: rgba(129, 140, 248, 0.12);
+
+  /* Gradient brand (wordmark & kata beraksen). */
+  --gradient-from: #ff8fb1;
+  --gradient-mid: #c4b5fd;
+  --gradient-to: #818cf8;
+}
+
+:root[data-theme="light"] {
+  /* Daylight Blush — krem hangat + rose/plum yang tetap romantis. */
+  --paper: 253 243 237; /* #FDF3ED */
+  --paper-2: 255 252 249; /* #FFFCF9 */
+  --ink: 47 30 63; /* #2F1E3F */
+  --accent: 226 71 122; /* #E2477A */
+  --blush: 240 130 165; /* #F082A5 */
+  --butter: 214 138 43; /* #D68A2B — gold lebih pekat agar kontras */
+  --sky: 124 92 224; /* #7C5CE0 */
+
+  --aurora-1: rgba(124, 92, 224, 0.12);
+  --aurora-2: rgba(226, 71, 122, 0.1);
+  --aurora-3: rgba(240, 130, 165, 0.12);
+
+  --gradient-from: #e2477a;
+  --gradient-mid: #9d6bdb;
+  --gradient-to: #6366f1;
 }
 
 @layer base {
@@ -32,28 +66,19 @@
 
   body {
     @apply bg-paper text-ink font-sans antialiased;
-    /* Glow aurora lembut — vibe "malam berbintang + senja". */
+    /* Glow aurora lembut — mengikuti tema lewat CSS variable. */
     background-image:
-      radial-gradient(
-        50rem 36rem at 12% -8%,
-        rgba(167, 139, 250, 0.16),
-        transparent 60%
-      ),
-      radial-gradient(
-        44rem 32rem at 92% 4%,
-        rgba(255, 143, 177, 0.14),
-        transparent 60%
-      ),
-      radial-gradient(
-        48rem 40rem at 50% 108%,
-        rgba(129, 140, 248, 0.12),
-        transparent 60%
-      );
+      radial-gradient(50rem 36rem at 12% -8%, var(--aurora-1), transparent 60%),
+      radial-gradient(44rem 32rem at 92% 4%, var(--aurora-2), transparent 60%),
+      radial-gradient(48rem 40rem at 50% 108%, var(--aurora-3), transparent 60%);
     background-attachment: fixed;
+    transition:
+      background-color 0.45s ease,
+      color 0.45s ease;
   }
   ::selection {
-    background: var(--accent);
-    color: var(--paper);
+    background: rgb(var(--accent));
+    color: rgb(var(--paper));
   }
 
   /* Sembunyikan kursor asli hanya saat custom cursor aktif (pointer halus). */
@@ -64,7 +89,7 @@
 
   /* Fokus keyboard yang jelas (quality floor). */
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -73,12 +98,12 @@
     width: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--paper);
+    background: rgb(var(--paper));
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--accent);
+    background: rgb(var(--accent));
     border-radius: 9999px;
-    border: 2px solid var(--paper);
+    border: 2px solid rgb(var(--paper));
   }
 }
 
@@ -118,12 +143,17 @@
   }
 
   .text-accent-c {
-    color: var(--accent);
+    color: rgb(var(--accent));
   }
 
-  /* Gradient andalan: blush → lavender → indigo (untuk brand & heading). */
+  /* Gradient andalan: blush → lavender → indigo (mengikuti tema). */
   .text-gradient {
-    background-image: linear-gradient(120deg, #ff8fb1 0%, #c4b5fd 45%, #818cf8 100%);
+    background-image: linear-gradient(
+      120deg,
+      var(--gradient-from) 0%,
+      var(--gradient-mid) 45%,
+      var(--gradient-to) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -137,6 +167,19 @@
   }
   to {
     transform: translateX(-50%);
+  }
+}
+
+/* Denyut lembut untuk tombol WhatsApp mengambang. */
+@keyframes wa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--accent) / 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgb(var(--accent) / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--accent) / 0);
   }
 }
 

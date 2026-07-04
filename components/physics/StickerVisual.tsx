@@ -67,8 +67,9 @@ export default function StickerVisual({ def }: { def: StickerDef }) {
           className="flex h-full w-full items-center justify-center rounded-[4px] px-2 text-center shadow-sticker"
           style={{ background: color }}
         >
-          {/* Note selalu berwarna terang → teksnya pakai warna gelap (text-paper). */}
-          <span className="font-hand text-lg leading-tight text-paper">
+          {/* Note selalu berwarna pastel terang → teks gelap TETAP (tidak ikut
+              tema, karena di light mode text-paper jadi krem dan hilang). */}
+          <span className="font-hand text-lg leading-tight text-[#241733]">
             {def.text}
           </span>
         </div>
